@@ -63,12 +63,10 @@ const users2 = {
 // Emitting data
 const observable = new Observable((subscriber) => {
   subscriber.next(users2);
-  subscriber.next(users); // Everytime we have an error, we stop execution
+  subscriber.complete(); // Stop the execution
+
+  // Piece of data is out of reach
   subscriber.next(users2);
-  subscriber.next(users2);
-  // Instead of .next() emitting directly to observable,
-  // we put pipe before it (capable of different operations)
-  // Pipe takes data first, and on last operations will send it to observer
 }).pipe(
   map((value) => {
     // Operator 1 - Unpack values
