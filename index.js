@@ -1,5 +1,5 @@
 const { Observable } = require('rxjs');
-const { map } = require('rxjs/operators');
+const { map, pluck, filter } = require('rxjs/operators');
 
 // Data
 const users = {
@@ -41,22 +41,22 @@ const users2 = {
       status: 'active',
       age: 19,
     },
-    {
-      status: 'active',
-      age: 11,
-    },
-    {
-      status: 'inactive',
-      age: 39,
-    },
-    {
-      status: 'active',
-      age: 59,
-    },
-    {
-      status: 'inactive',
-      age: 17,
-    },
+    // {
+    //   status: 'active',
+    //   age: 11,
+    // },
+    // {
+    //   status: 'inactive',
+    //   age: 39,
+    // },
+    // {
+    //   status: 'active',
+    //   age: 59,
+    // },
+    // {
+    //   status: 'inactive',
+    //   age: 17,
+    // },
   ],
 };
 
@@ -68,10 +68,8 @@ const observable = new Observable((subscriber) => {
   // Piece of data is out of reach
   subscriber.next(users2);
 }).pipe(
-  map((value) => {
-    // Operator 1 - Unpack values
-    return value.data;
-  }),
+  pluck('data'),
+  filter((value) => value.length >= 5),
   map((value) => {
     // Operator 2 - Filter active users from inactive
     return value.filter((user) => user.status === 'active');
